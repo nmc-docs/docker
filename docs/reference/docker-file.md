@@ -20,7 +20,6 @@ sidebar_position: 2
 | [`MAINTAINER`](#maintainer-deprecated) | Chỉ định tác giả tạo ra image.                                  |
 | [`RUN`](#run)                          | Execute build commands.                                         |
 | [`USER`](#user)                        | Thiết lập user, group ID trong môi trường container             |
-| [`VOLUME`](#volume)                    | Create volume mounts.                                           |
 | [`WORKDIR`](#workdir)                  | Chỉ định thư mục làm việc                                       |
 
 ## COPY
@@ -326,3 +325,213 @@ CMD ["npm", "start"]
 ```bash
 docker build --build-arg VERSION=2.0 --build-arg BASE_IMAGE=node:16 .
 ```
+
+## FROM
+
+- Trong Dockerfile, lệnh `FROM` được dùng để **chỉ định image gốc (base image)** mà Docker sẽ sử dụng làm nền tảng để xây dựng image mới.
+- Mục đích chính của FROM:
+  - ✅ Xác định môi trường cơ bản: ví dụ Ubuntu, Alpine, Node.js, Python, v.v.
+  - ✅ Kế thừa các công cụ và thư viện có sẵn trong image đó.
+  - ✅ Là bước đầu tiên bắt buộc trong hầu hết các Dockerfile (trừ multistage build thì có thể có nhiều `FROM`).
+- Ví dụ:
+
+```Dockerfile
+FROM node:18-alpine
+```
+
+👉 Dòng này nói rằng Docker sẽ bắt đầu từ image `node` phiên bản `18-alpine`, một image nhỏ gọn đã cài sẵn Node.js.
+
+## USER
+
+- Lệnh `USER` trong Dockerfile được dùng để **thiết lập user (người dùng)** mà các lệnh sau đó trong Dockerfile (và container khi chạy) sẽ được thực thi dưới quyền của người dùng đó.
+- Cú pháp:
+
+```Dockerfile
+USER <username>[:<group>]
+```
+
+- 🧠 Mục đích:
+
+  - **Bảo mật**: Tránh chạy container với quyền `root`, hạn chế nguy cơ tấn công.
+  - **Phân quyền**: Dùng user phù hợp với ứng dụng (ví dụ `node`, `www-data`, v.v.)
+  - **Chuẩn DevOps/SRE**: Các tổ chức thường không cho phép chạy container bằng `root`.
+
+- **Ví dụ 1**: Dùng user có sẵn trong base image
+
+```Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY . .
+RUN npm install
+
+# Chuyển sang user node (đã có sẵn trong node image)
+USER node
+
+CMD ["node", "index.js"]
+```
+
+- **Ví dụ 2**: Tạo user mới rồi dùng
+
+```Dockerfile
+FROM python:3.10-slim
+
+# Tạo user không phải root
+RUN useradd -m myuser
+
+# Đặt user hiện tại
+USER myuser
+
+CMD ["python", "app.py"]
+```
+
+## EXPOSE
+
+- Lệnh `EXPOSE` trong Dockerfile dùng để **khai báo cổng (port)** mà container sẽ **lắng nghe (listen)** khi chạy. Đây là cách **document hóa** cho Docker và người dùng biết ứng dụng trong container hoạt động trên cổng nào.
+- Ví dụ:
+
+```Dockerfile
+EXPOSE 3000
+```
+
+:::caution[Lưu ý]
+
+- `EXPOSE` **không tự động mở cổng ra ngoài host**. Nó chỉ là metadata để tài liệu hoá.
+- Để thật sự **truy cập từ bên ngoài** , ta cần dùng `-p` khi chạy container:
+
+```bash
+docker run -p 8080:3000 my-image
+```
+
+👉 Lúc này:
+
+- Cổng `3000` trong container được ánh xạ ra cổng `8080` trên máy host.
+- Ta có thể truy cập app qua `http://localhost:8080`.
+
+:::
+
+## CMD
+
+- Lệnh `CMD` trong Dockerfile được dùng để **chỉ định lệnh mặc định sẽ được chạy** khi container khởi động.
+- Cú pháp:
+
+```Dockerfile
+CMD ["executable", "param1", "param2"]
+```
+
+- Ví dụ:
+
+```Dockerfile
+CMD ["node", "index.js"]
+CMD ["npm", "run", "dev"]
+```
+
+:::caution[Lưu ý]
+
+- Trong một Dockerfile chỉ được có **một dòng** `CMD` (lệnh sau sẽ ghi đè lệnh trước).
+- Nếu ta chạy `docker run IMAGE lệnh_mới` , thì lệnh đó sẽ **ghi đè CMD** .
+- Ví dụ:
+
+```bash
+docker run my-image node anotherFile.js
+```
+
+→ Lệnh `node anotherFile.js` sẽ thay thế `CMD ["npm", "start"]`.
+
+:::
+
+## ENTRYPOINT
+
+- Lệnh `ENTRYPOINT` trong Dockerfile dùng để **định nghĩa lệnh chính (main command)** mà container **luôn luôn chạy khi khởi động** , **không bị ghi đè** bởi tham số khi chạy `docker run`.
+- Lệnh này thường được kết hợp với lệnh `CMD`. Khi kết hợp, câu lệnh thực thi sẽ là `ENTRYPOINT + CMD`
+- Cú pháp:
+
+```Dockerfile
+ENTRYPOINT ["executable", "param1", "param2"]
+```
+
+### Ví dụ 1:
+
+```Dockerfile
+FROM ubuntu
+ENTRYPOINT ["echo"]
+CMD ["Hello from Docker!"]
+```
+
+👉 Khi thực thi:
+
+```bash
+docker run my-image # Output: Hello from Docker!
+docker run my-image "Custom message" # Output: Custom message
+```
+
+✅ Vì `ENTRYPOINT` là `echo`, còn `CMD` chỉ là tham số mặc định (`Hello from Docker!`) nếu không có gì được ghi đè.
+
+### Ví dụ 2:
+
+```Dockerfile
+FROM python:3.10-slim
+WORKDIR /app
+COPY script.py .
+
+ENTRYPOINT ["python", "script.py"]
+```
+
+👉 Khi thực thi:
+
+```bash
+docker run my-image arg1 arg2
+```
+
+➡️ Docker sẽ thực hiện:
+
+```bash
+python script.py arg1 arg2
+```
+
+:::caution[Lưu ý]
+
+- Nếu muốn ghi đè `ENTRYPOINT`, ta **phải dùng flag** `--entrypoint` khi chạy container.
+- Trong một Dockerfile chỉ được có **1** `ENTRYPOINT` , dòng sau sẽ ghi đè dòng trước nếu có nhiều.
+
+:::
+
+## RUN
+
+- Lệnh `RUN` trong Dockerfile dùng để **thực thi lệnh trong quá trình build image**, tức là lệnh đó **chạy tại thời điểm Docker build**, **không phải khi container chạy**.
+- Dùng `RUN` khi:
+  - Cài đặt phần mềm, package
+  - Thiết lập môi trường
+  - Biên dịch code
+  - Dọn dẹp file tạm, cache
+  - Tạo file, user, thư mục cần thiết
+- Ví dụ:
+
+```Dockerfile
+FROM node:18
+
+# Cài thêm curl và nano
+RUN apt-get update && apt-get install -y curl nano
+
+# Tạo thư mục ứng dụng
+RUN mkdir /app
+```
+
+:::caution[Lưu ý]
+
+- Mỗi lệnh `RUN` tạo ra **một layer mới** trong image → nên **gộp các lệnh** lại bằng `&&` để tối ưu kích thước image.
+
+✅ Nên:
+
+```Dockerfile
+RUN apt update && apt install -y curl git && rm -rf /var/lib/apt/lists/*
+```
+
+❌ Không nên:
+
+```Dockerfile
+RUN apt update
+RUN apt install -y curl
+RUN apt install -y git
+```
+
+:::

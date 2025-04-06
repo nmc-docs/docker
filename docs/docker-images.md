@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Docker Images
+# Images
 
 ## 1. Docker Image là gì?
 
@@ -75,3 +75,5 @@ docker build -t my-node-app .
 - Xem thêm về cấu trúc, options của câu lệnh `docker build`: [tại đây](./reference/cli/docker-build)
 
 :::
+
+## 4. Các câu lệnh CLI để quản lý image
