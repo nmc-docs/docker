@@ -72,17 +72,17 @@ docker run -d -e NODE_ENV=production node-app
 
 ## 4. Các câu lệnh CLI để quản lý container
 
-| Lệnh                                                         | Mô tả                                                     |
-| ------------------------------------------------------------ | --------------------------------------------------------- |
-| `docker ps`                                                  | Xem danh sách container đang chạy                         |
-| `docker ps -a`                                               | Xem tất cả container (cả đã dừng)                         |
-| `docker stop <container_id>`                                 | Dừng container                                            |
-| `docker start <container_id>`                                | Khởi động lại container                                   |
-| `docker restart <container_id>`                              | Khởi động lại container                                   |
-| `docker rm <container_id>`                                   | Xóa container ở trạng thái stopped (đã dừng) theo ID      |
-| `docker container prune -f`                                  | Xóa tất cả container đang ở trạng thái stopped (đã dừng). |
-| `docker rename <CURRENT_NAME> <NEW_NAME>`                    | Thay đổi tên container                                    |
-| `docker container inspect -f [container_1] [container_2]...` | Xem chi tiết thông tin về 1 hoặc nhiều container          |
+| Lệnh                                                         | Mô tả                                                             |
+| ------------------------------------------------------------ | ----------------------------------------------------------------- |
+| `docker ps`                                                  | Xem danh sách container đang chạy                                 |
+| `docker ps -a`                                               | Xem tất cả container (cả đã dừng)                                 |
+| `docker stop <...container_id>`                              | Dừng 1 hoặc nhiều container theo ID                               |
+| `docker start <...container_id>`                             | Khởi động lại 1 hoặc nhiều container theo ID                      |
+| `docker restart <...container_id>`                           | Khởi động lại 1 hoặc nhiều container theo ID                      |
+| `docker rm <...container_id>`                                | Xóa 1 hoặc nhiều container theo ID ở trạng thái stopped (đã dừng) |
+| `docker container prune -f`                                  | Xóa tất cả container đang ở trạng thái stopped (đã dừng).         |
+| `docker rename <CURRENT_NAME> <NEW_NAME>`                    | Thay đổi tên container                                            |
+| `docker container inspect -f [container_1] [container_2]...` | Xem chi tiết thông tin về 1 hoặc nhiều container                  |
 
 ### docker logs
 
