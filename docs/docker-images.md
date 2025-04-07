@@ -117,11 +117,12 @@ docker push <dockerhub-username>/<repo-name>:<tag>
 
 ## 5. Các câu lệnh CLI để quản lý image
 
-| Lệnh                                      | Mô tả                                                                |
-| ----------------------------------------- | -------------------------------------------------------------------- |
-| `docker image prune -af`                  | Xóa hết tất cả các images không được gán vào container đang chạy nào |
-| `docker pull NAME[:TAG]`                  | Pull một image từ docker hub về                                      |
-| `docker rmi -f <...image_id \| name:tag>` | Xóa 1 hoặc nhiều image theo ID hoặc theo `name:tag`                  |
+| Lệnh                                   | Mô tả                                                                                                                                                                                                       |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docker image prune`                   | Xóa hết tất cả **dangling image** (là những image có `repository` và `tag` là `<none>`. Chúng được sinh ra khi ta build lại image mà không đặt tag mới, hay image cũ bị thay thế nhưng vẫn còn trong cache) |
+| `docker image prune -a`                | Xóa hết tất cả các images                                                                                                                                                                                   |
+| `docker pull NAME[:TAG]`               | Pull một image từ docker hub về                                                                                                                                                                             |
+| `docker rmi <...image_id \| name:tag>` | Xóa 1 hoặc nhiều image theo ID hoặc theo `name:tag`                                                                                                                                                         |
 
 ### docker images
 

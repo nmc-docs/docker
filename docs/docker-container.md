@@ -169,3 +169,53 @@ docker port test 7890
 
 0.0.0.0:4321
 ```
+
+### docker exec
+
+- Câu lệnh `docker exec` được dùng để **thực thi một lệnh bên trong một container đang chạy** . Nó rất hữu ích để ta “chui vào” trong container để kiểm tra, gỡ lỗi, hoặc thao tác trực tiếp.
+- Cú pháp tổng quát:
+
+```bash
+docker exec [OPTIONS] [CONTAINER] COMMAND [ARG...]
+```
+
+- Trong đó:
+
+  - `CONTAINER`: ID hoặc tên container
+  - `COMMAND`: lệnh ta muốn thực thi (ví dụ: `bash`, `sh`, `ls`, `cat`, `npm install`, ...)
+
+- Một số options cho câu lệnh `docker exec`:
+
+| Option | Ý nghĩa                                    |
+| ------ | ------------------------------------------ |
+| `-i`   | Mở stdin để tương tác                      |
+| `-t`   | Gán pseudo-TTY (giống như terminal)        |
+| `-u`   | Chạy lệnh dưới user cụ thể trong container |
+
+✅ Hai option `-it` thường dùng chung để vào terminal trong container:
+
+```bash
+docker exec -it <container_name> sh
+```
+
+```bash
+# Truy cập vào terminal trong container với user "nextjs"
+docker exec -it -u nextjs my_nextjs_app sh
+```
+
+### docker cp
+
+- Câu lệnh `docker copy` (viết tắt là `docker cp`) để copy file/thư mục từ container ra ngoài máy host hoặc ngược lại
+- Ví dụ:
+
+```bash
+# Copy toàn bộ file, thư mục bên trong thư mục "/app" của container "staging-web_chat_client" vào trong thư mục "/d/web_chat_client" ở máy host nơi ta chạy lệnh docker cp
+docker cp staging-web_chat_client:/app/ /d/web_chat_client
+```
+
+```bash
+# Copy toàn bộ file, thư mục bên trong thư mục "nginx-1.26.2" ở máy host vào thư mục "nginx" ở container (minh họa ở ảnh bên dưới)
+docker cp /d/nginx-1.26.2 6c76ff:/app/nginx
+```
+
+![1744043729641](image/docker-container/1744043729641.png)
