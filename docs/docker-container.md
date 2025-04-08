@@ -80,7 +80,7 @@ docker run -d -e NODE_ENV=production node-app
 | `docker start <...container_id>`                             | Khởi động lại 1 hoặc nhiều container theo ID                      |
 | `docker restart <...container_id>`                           | Khởi động lại 1 hoặc nhiều container theo ID                      |
 | `docker rm <...container_id>`                                | Xóa 1 hoặc nhiều container theo ID ở trạng thái stopped (đã dừng) |
-| `docker container prune -f`                                  | Xóa tất cả container đang ở trạng thái stopped (đã dừng).         |
+| `docker container prune`                                     | Xóa tất cả container đang ở trạng thái stopped (đã dừng).         |
 | `docker rename <CURRENT_NAME> <NEW_NAME>`                    | Thay đổi tên container                                            |
 | `docker container inspect -f [container_1] [container_2]...` | Xem chi tiết thông tin về 1 hoặc nhiều container                  |
 
