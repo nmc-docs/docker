@@ -297,6 +297,32 @@ RUN echo "Running version ${VERSION}"
 
 :::
 
+:::tip
+
+- Trong một `Dockerfile`, chúng ta thường dùng kết hợp `ARG` và `ENV` để truyền biến môi trường vào quá trình **build** ứng dụng front-end, đặc biệt với các framework như React, Vue, Angular,..Khi chạy `npm run build`, chúng sẽ đọc các biến môi trường lúc build (build time) để nhúng thẳng vào file JS/HTML (không phải runtime).
+
+- Ví dụ:
+
+```Dockerfile
+# Khai báo ARG
+ARG REACT_APP_API_URL
+
+# Gán vào ENV để các bước build có thể truy cập
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
+# Copy mã nguồn
+COPY . .
+
+# Build ứng dụng
+RUN npm install && npm run build
+```
+
+```bash
+docker build --build-arg REACT_APP_API_URL=https://api.example.com .
+```
+
+:::
+
 ---
 
 ### 📌 Ví dụ đầy đủ:

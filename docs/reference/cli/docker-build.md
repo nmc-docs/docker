@@ -50,16 +50,16 @@ docker build -t backend:v1 ./server
 
 ## Một số options phổ biến
 
-| Option         | Ý nghĩa                                                                     |
-| -------------- | --------------------------------------------------------------------------- |
-| `-t`,`--tag`   | Gán tên và tag cho image, ví dụ `myapp:latest`                              |
-| `-f`,`--file`  | Chỉ định đường dẫn đến Dockerfile nếu không nằm ở mặc định (`./Dockerfile`) |
-| `--no-cache`   | Bỏ qua cache trong quá trình build (sẽ build từ đầu)                        |
-| `--build-arg`  | Truyền biến môi trường (`ARG`) vào Dockerfile                               |
-| `--platform`   | Xác định nền tảng cần build (ví dụ:`linux/amd64`,`linux/arm64`)             |
-| `--target`     | Build đến một `stage` cụ thể trong Dockerfile multi-stage                   |
-| `--pull`       | Luôn kéo phiên bản mới nhất của base image                                  |
-| `--quiet`,`-q` | Chỉ hiển thị image ID sau khi build xong (im lặng)                          |
+| Option         | Ý nghĩa                                                                                                                                                                              |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `-t`,`--tag`   | Gán tên và tag cho image, ví dụ `myapp:latest`                                                                                                                                       |
+| `-f`,`--file`  | Chỉ định đường dẫn đến Dockerfile nếu không nằm ở mặc định (`./Dockerfile`).<br />**⚠️Tính từ thư mục hiện tại ta đang chạy lệnh (`PWD`)** , **không phải** tính từ `build context`. |
+| `--no-cache`   | Bỏ qua cache trong quá trình build (sẽ build từ đầu)                                                                                                                                 |
+| `--build-arg`  | Truyền biến môi trường (`ARG`) vào Dockerfile                                                                                                                                        |
+| `--platform`   | Xác định nền tảng cần build (ví dụ:`linux/amd64`,`linux/arm64`)                                                                                                                      |
+| `--target`     | Build đến một `stage` cụ thể trong Dockerfile multi-stage                                                                                                                            |
+| `--pull`       | Luôn kéo phiên bản mới nhất của base image                                                                                                                                           |
+| `--quiet`,`-q` | Chỉ hiển thị image ID sau khi build xong (im lặng)                                                                                                                                   |
 
 ## Một số ví dụ
 
