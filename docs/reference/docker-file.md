@@ -101,7 +101,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 ### `<src>`
 
-- Đường dẫn tới tệp hoặc thư mục **tương đối với [build context](./cli/docker-build#-build-context-là-gì)** (thường là thư mục ta chạy `docker build` từ đó).
+- Đường dẫn tới tệp hoặc thư mục nguồn ở máy host, đường dẫn được tính từ thư mục **[build context](./cli/docker-build#-build-context-là-gì)**.
 - Có thể là một hoặc nhiều tệp:
 
 ```Dockerfile
