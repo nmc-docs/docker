@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # `docker compose down`
@@ -8,20 +8,26 @@ sidebar_position: 2
 
 - Lệnh `docker compose down` được dùng để **dừng và gỡ bỏ toàn bộ môi trường Docker Compose** mà ta đã khởi chạy bằng `docker compose up`.
 
-| Tác động                 | Mô tả                                              |
-| ------------------------ | -------------------------------------------------- |
-| 🛑 Dừng container        | Tất cả các container do Compose quản lý sẽ bị dừng |
-| 🗑️ Xóa container         | Xóa luôn các container đó                          |
-| 🧱 Xóa mạng              | Gỡ mạng Docker do Compose tạo                      |
-| 📦 (Tuỳ chọn) Xóa volume | Nếu chỉ định, có thể xóa luôn cả volume            |
-| 🖼️ (Tuỳ chọn) Xóa image  | Nếu chỉ định, có thể xóa image đã build            |
+| Tác động                 | Mô tả                                                                                         |
+| ------------------------ | --------------------------------------------------------------------------------------------- |
+| 🛑 Dừng container        | Tất cả các container hoặc container ứng với service ta chỉ định do Compose quản lý sẽ bị dừng |
+| 🗑️ Xóa container         | Xóa luôn các container đó                                                                     |
+| 🧱 Xóa mạng              | Gỡ mạng Docker do Compose tạo                                                                 |
+| 📦 (Tuỳ chọn) Xóa volume | Nếu chỉ định, có thể xóa luôn cả volume                                                       |
+| 🖼️ (Tuỳ chọn) Xóa image  | Nếu chỉ định, có thể xóa image đã build                                                       |
 
 :::
 
 ## ✅ Cú pháp cơ bản:
 
 ```bash
-docker compose down
+docker compose down [OPTIONS]
+```
+
+Hoặc chỉ down với service cụ thể:
+
+```bash
+docker compose down [OPTIONS] [SERVICES]
 ```
 
 ## ✅ Các tuỳ chọn thường dùng:

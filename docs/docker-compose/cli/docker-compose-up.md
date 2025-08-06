@@ -1,12 +1,12 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # `docker compose up`
 
 :::info[Thông tin]
 
-- Lệnh `docker compose up` là một trong những lệnh quan trọng nhất khi làm việc với Docker Compose. Nó được dùng để **khởi động toàn bộ các dịch vụ (services)** được định nghĩa trong file `docker-compose.yml`.
+- Lệnh `docker compose up` là một trong những lệnh quan trọng nhất khi làm việc với Docker Compose. Nó được dùng để **khởi động toàn bộ các dịch vụ (services)** HOẶC **các services được chỉ định** mà được định nghĩa trong file `docker-compose.yml`.
 - ✅ Mục đích chính của `docker compose up`
   - **Build images (nếu chưa có)**
   - **Tạo và khởi chạy containers cho các services**
@@ -15,7 +15,21 @@ sidebar_position: 1
 
 :::
 
-🧩 Các tùy chọn (options) thường dùng:
+## Cú pháp
+
+- Khởi động toàn bộ services:
+
+```bash
+docker compose up [OPTIONS]
+```
+
+- Hoặc khởi động 1 hay nhiều services cụ thể:
+
+```bash
+docker compose up [OPTIONS] [SERVICE...]
+```
+
+## 🧩 Các tùy chọn (options) thường dùng:
 
 | Option                | Mô tả                                                              |
 | --------------------- | ------------------------------------------------------------------ |
